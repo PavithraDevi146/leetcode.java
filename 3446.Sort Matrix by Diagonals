@@ -1,0 +1,58 @@
+import java.util.Arrays;
+
+public class Solution {
+
+    public int[][] sortMatrix(int[][] grid) {
+        int n = grid.length;
+
+        for (int i = 0; i < n; i++) {
+            int[] temp = new int[n - i];
+            for (int j = i; j < n; j++) {
+                temp[j - i] = grid[j][j - i];
+            }
+            Arrays.sort(temp);
+            for (int j = i; j < n; j++) {
+                grid[j][j - i] = temp[n - j - 1]; // reverse order
+            }
+        }
+
+        for (int i = 1; i < n; i++) {
+            int[] temp = new int[n - i];
+            for (int j = i; j < n; j++) {
+                temp[j - i] = grid[j - i][j];
+            }
+            Arrays.sort(temp);
+            for (int j = i; j < n; j++) {
+                grid[j - i][j] = temp[j - i]; // normal order
+            }
+        }
+        return grid;
+    }
+
+    public static void printMatrix(int[][] grid) {
+        for (int[] row : grid) {
+            for (int val : row) {
+                System.out.print(val + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+
+        int[][] grid = {
+            {4, 3, 1},
+            {2, 5, 7},
+            {8, 6, 9}
+        };
+
+        System.out.println("Original Matrix:");
+        printMatrix(grid);
+
+        int[][] result = sol.sortMatrix(grid);
+
+        System.out.println("\nMatrix after diagonal sorting:");
+        printMatrix(result);
+    }
+}
